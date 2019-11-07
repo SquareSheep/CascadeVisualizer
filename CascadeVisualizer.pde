@@ -25,8 +25,8 @@ static int de; //width of screen de*2
 static int aw; //Animation depth
 static PVector front;
 static PVector back;
-static float defaultMass = 3;
-static float defaultVMult = 0.3;
+static float defaultMass = 10;
+static float defaultVMult = 0.5;
 
 
 BeatTimer timer;
@@ -37,7 +37,7 @@ float currBeat;
 
 
 void setup() {
-  size(600,600,P3D);
+  size(1000,1000,P3D);
   de = (int)(min(width,height)*1);
   aw = (int)(4*de);
   front = new PVector(-de*2,de*1.2,de*0.4);
@@ -52,7 +52,7 @@ void setup() {
   textAlign(CENTER);
 
   mim = new Minim(this);
-  song = mim.loadFile("../SadMachineVisualizer/sadmachine.mp3", 1024);
+  song = mim.loadFile("enough.mp3", 1024);
   fft = new FFT(song.bufferSize(), song.sampleRate());
 
   timer = new BeatTimer(35,0,bpm);
@@ -64,10 +64,17 @@ void setup() {
 }
 
 void draw() {
-  if (frameCount % 15 == 0) {
+  if (frameCount % 10 == 0) {
     float w = de*0.15;
-    effs.add(-de,random(-de,de),0, w,w,0, 0,0,0, w,0,0, 3,15,60);
-    //boxes.add(random(-de,de),random(-de,de),0, w,60);
+    effs.add(-de,(int)random(-de/w,de/w)*w,0, w,w,0, 0,0,0, w,0,0, 10,(int)(de*2/w),60);
+    for (int i = 0 ; i < boxes.arm ; i ++) {
+      int t = (int)((float)i/boxes.arm*binCount);
+      Box3d box = ((Box3d)boxes.get(i));
+      box.fillStyle.set(25 + t * 2,t,125,125, 1,3,5,5, t);
+      box.w.pm.set(0.1,0.1,3);
+      box.w.index = t;
+
+    }
   }
 
   update();
@@ -75,14 +82,14 @@ void draw() {
 
   background(0);
 
-  fill(255);
-  drawBorders();
-  drawWidthBox(de);
-  //drawPitches();
-  push();
-  translate(0,de*0.5,0);
-  text(currBeat,0,0);
-  pop();
+  // fill(255);
+  // drawBorders();
+  // drawWidthBox(de);
+  // drawPitches();
+  // push();
+  // translate(0,de*0.5,0);
+  // text(currBeat,0,0);
+  // pop();
 
   // for (Mob mob : mobs) {
   //   if (mob.draw) mob.render();

@@ -1,25 +1,18 @@
-/*
-Points and SpringValues
-- Points are 3D SpringValues
-- Switch between ease in and ease out modes
-
-Add an IPoint and ISpringValue? Similar to IColor in that it has an index to react to
-Build the option in
-*/
-
 class Point {
   PVector p;
   PVector P;
+  PVector pm = new PVector(0,0,0);
   PVector v = new PVector(0,0,0);
   float vMult;
   float mass;
-  boolean mode = true;
+  int index;
 
   Point(PVector p, float vMult, float mass) {
     this.p = p;
     this.P = p.copy();
     this.vMult = vMult;
     this.mass = mass;
+    this.index = -1;
   }
 
   Point() {
@@ -40,18 +33,14 @@ class Point {
 
   void update() {
     v.mult(vMult);
-    if (mode) {
-      v.add(PVector.sub(P,p).div(mass));
+    if (index != -1) {
+      v.x += (P.x + pm.x * av[index] - p.x) / mass;
+      v.y += (P.y + pm.y * av[index] - p.y) / mass;
+      v.z += (P.z + pm.z * av[index] - p.z) / mass;
     } else {
-      v.x += mass / (P.x - p.x);
-      v.y += mass / (P.y - p.y);
-      v.z += mass / (P.z - p.z);
+      v.add(PVector.sub(P,p).div(mass));
     }
     p.add(v);
-  }
-
-  void move() {
-    translate(p.x,p.y,p.z);
   }
 
   Point copy() {
@@ -62,10 +51,11 @@ class Point {
 class SpringValue {
   float x;
   float X;
+  float xm = 0;
   float v = 0;
   float vMult;
   float mass;
-  boolean mode = true;
+  int index = -1;
 
   SpringValue(float x, float vMult, float mass) {
     this.x = x;
@@ -84,14 +74,10 @@ class SpringValue {
 
   void update() {
     v *= vMult;
-    if (mode) {
-      v += (X - x)/mass;
+    if (index != -1) {
+      v += (X + xm - x)/mass;
     } else {
-      if (X == x) {
-        v = 0;
-      } else {
-        v += mass/(X - x);
-      }
+      v += (X - x)/mass;
     }
     x += v;
   }

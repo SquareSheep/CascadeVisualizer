@@ -1,8 +1,3 @@
-/*
-Object pools for Box3d and Box2d
-
-Spawn and death ease ins for boxes
-*/
 abstract class ObjectPool<T> {
 	int arm;
 	ArrayList<T> ar;
@@ -21,6 +16,10 @@ abstract class ObjectPool<T> {
 
 	T get(int i) {
 		return ar.get(i);
+	}
+
+	T getLast() {
+		return ar.get(arm - 1);
 	}
 }
 

@@ -6,6 +6,9 @@ class BoxPool<T extends Mob> extends ObjectPool {
 			setBox3d((Box3d) ar.get(arm), px, py, pz, wx, wy, wz,angx, angy, angz, lifeSpan);
 		}
 		arm ++;
+		for (int i = 0 ; i < arm ; i ++) {
+			((Box3d)ar.get(i)).fillStyle.index = (int)((float)i/arm*binCount);
+		}
 	}
 
 	void add(float px, float py, float pz, float w, float h, float d, int lifeSpan) {
@@ -70,7 +73,6 @@ class Box3d extends MobF {
 
 	void render() {
 		setDraw();
-		fill(255);
 		if (w.p.z > 2) {
 			box(w.p.x, w.p.y, w.p.z);
 		} else {

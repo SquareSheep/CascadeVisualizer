@@ -24,14 +24,16 @@ class IColor extends AColor {
   }
 
   IColor() {
-    this(255,255,255,255, 0,0,0,0, 0);
+    this(0,0,0,0, 0,0,0,0, -1);
   }
 
   void update() {
-    r.X = rm * av[index] + rc;
-    g.X = gm * av[index] + gc;
-    b.X = bm * av[index] + bc;
-    a.X = am * av[index] + ac;
+    if (index != -1) {
+      r.X = rm * av[index] + rc;
+      g.X = gm * av[index] + gc;
+      b.X = bm * av[index] + bc;
+      a.X = am * av[index] + ac;
+    }
     r.update();
     g.update();
     b.update();
@@ -50,6 +52,16 @@ class IColor extends AColor {
   	this.gc = (int)gc;
   	this.bc = (int)bc;
   	this.ac = (int)ac;
+  }
+
+  void set(float rc, float gc, float bc, float ac, float rm, float gm, float bm, float am, int index) {
+    setC(rc,gc,bc,ac);
+    setM(rm,gm,bm,am);
+    this.index = index;
+  }
+
+  void set(float rc, float gc, float bc, float ac, float rm, float gm, float bm, float am) {
+    set(rc,gc,bc,ac,rm,gm,bm,am,index);
   }
 }
 
