@@ -46,7 +46,7 @@ void keyPressed() {
 		}
 		println("Cam lock: " + cam.lock);
 	} else {
-		println("KEY: " + key + " " + currTime + " " + currBeat);
+		println("KEY: " + key + " " + currTime + " " + currBeat + " FRAMERATE: " + frameRate);
 	}
 }
 
@@ -152,7 +152,7 @@ class BeatTimer {
   }
 
   void update() {
-    float currMil = (currTime + offset) % (60000.0/bpm);
+    float currMil = (currTime + offset) % (60000.0/bpm/2);
     if (!beatAlready && currMil < threshold) {
       beat = true;
       beatAlready = true;

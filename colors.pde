@@ -12,7 +12,7 @@ class IColor extends AColor {
   int gup = 1;
   int bup = 1;
 
-  IColor(float rm, float gm, float bm, float am, float rc, float gc, float bc, float ac, float index) {
+  IColor(float rc, float gc, float bc, float ac, float rm, float gm, float bm, float am, float index) {
   	super(rc, gc, bc, ac);
   	this.rm = rm; this.gm = gm; this.bm = bm; this.am = am;
   	this.rc = (int)rc; this.gc = (int)gc; this.bc = (int)bc; this.ac = (int)ac;
@@ -20,11 +20,11 @@ class IColor extends AColor {
   }
 
   IColor(float rc, float gc, float bc, float ac) {
-  	this(0,0,0,0, rc,gc,bc,ac, 0);
+  	this(rc,gc,bc,ac, 0,0,0,0, 0);
   }
 
   IColor() {
-    this(0,0,0,0, 0,0,0,0, 0);
+    this(255,255,255,255, 0,0,0,0, 0);
   }
 
   void update() {

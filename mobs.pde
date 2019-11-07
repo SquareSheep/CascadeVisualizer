@@ -1,3 +1,29 @@
+/*
+Object pools for Box3d and Box2d
+
+Spawn and death ease ins for boxes
+*/
+abstract class ObjectPool<T> {
+	int arm;
+	ArrayList<T> ar;
+
+	ObjectPool() {
+		arm = 0;
+		ar = new ArrayList<T>();
+	}
+
+	//Must also implement void add();
+
+	void remove(int i) {
+		ar.add(ar.remove(i));
+		arm --;
+	}
+
+	T get(int i) {
+		return ar.get(i);
+	}
+}
+
 abstract class MobF extends Mob {
 	IColor fillStyle = new IColor();
 	IColor strokeStyle = new IColor();

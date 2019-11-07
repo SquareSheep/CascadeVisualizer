@@ -14,7 +14,9 @@ Poly newPoly(String type, PVector p, float w, PVector ang) {
 		new float[]{-1,-1,-1, -1,-1,1, -1,1,1, -1,1,-1, 1,-1,-1, 1,-1,1, 1,1,1, 1,1,-1}, 
 		new int[][]{ new int[]{0,1,2,3}, new int[]{0,1,5,4}, new int[]{1,2,6,5}, 
 			new int[]{2,3,7,6}, new int[]{0,3,7,4}, new int[]{4,5,6,7}});
-
+	if (type == "Square") return new Poly(p, w, ang,
+		new float[]{-1,-1, -1,1, 1,1, 1,-1},
+		new int[][]{new int[]{0,1,2,3}});
 	return new Poly();
 }
 
