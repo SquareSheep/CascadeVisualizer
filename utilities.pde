@@ -27,13 +27,19 @@ void calcFFT() {
 }
 
 void mousePressed() {
-  float temp = ((float)mouseX / width) * song.length();
-  song.cue((int)temp);
-  currBeat = (int)(song.position()/60000.0*bpm);
-}
-
-void seekTo(float time) {
-  song.cue((int)time);
+  int temp = (int)((float)mouseX / width) * song.length();
+  int tempBeat = (int)(song.position()/60000.0*bpm);
+  for (Event event : events) {
+    if (tempBeat <= event.time) {
+      event.spawned = false;
+      event.finished = false;
+      if (currBeat >= event.time && currBeat < event.timeEnd) {
+        event.end();
+      }
+    }
+  }
+  song.cue(temp);
+  currBeat = tempBeat;
 }
 
 void keyPressed() {

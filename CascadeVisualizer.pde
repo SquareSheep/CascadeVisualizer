@@ -55,7 +55,7 @@ void setup() {
   song = mim.loadFile("enough.mp3", 1024);
   fft = new FFT(song.bufferSize(), song.sampleRate());
 
-  timer = new BeatTimer(35,0,bpm);
+  timer = new BeatTimer(50,0,bpm);
   
   addEvents();
 
@@ -64,36 +64,35 @@ void setup() {
 }
 
 void draw() {
-  if (frameCount % 10 == 0) {
-    float w = de*0.15;
-    effs.add(-de,(int)random(-de/w,de/w)*w,0, w,w,0, 0,0,0, w,0,0, 10,(int)(de*2/w),60);
-    for (int i = 0 ; i < boxes.arm ; i ++) {
-      int t = (int)((float)i/boxes.arm*binCount);
-      Box3d box = ((Box3d)boxes.get(i));
-      box.fillStyle.set(25 + t * 2,t,125,125, 1,3,5,5, t);
-      box.w.pm.set(0.1,0.1,3);
-      box.w.index = t;
-
-    }
-  }
+  // if (frameCount % 10 == 0) {
+  //   float w = de*0.15;
+  //   effs.add(-de,(int)random(-de/w,de/w)*w,0, w,w,0, 0,0,0, w,0,0, 10,(int)(de*2/w),60);
+  //   for (int i = 0 ; i < boxes.arm ; i ++) {
+  //     int t = (int)((float)i/boxes.arm*binCount);
+  //     Box3d box = ((Box3d)boxes.get(i));
+  //     box.fillStyle.set(25 + t * 2,t,125,125, 1,3,5,5, t);
+  //     box.w.pm.set(0.1,0.1,3);
+  //     box.w.index = t;
+  //   }
+  // }
 
   update();
   cam.render();
 
   background(0);
 
-  // fill(255);
-  // drawBorders();
-  // drawWidthBox(de);
-  // drawPitches();
-  // push();
-  // translate(0,de*0.5,0);
-  // text(currBeat,0,0);
-  // pop();
+  fill(255);
+  drawBorders();
+  drawWidthBox(de);
+  drawPitches();
+  push();
+  translate(0,de*0.5,0);
+  text(currBeat,0,0);
+  pop();
 
-  // for (Mob mob : mobs) {
-  //   if (mob.draw) mob.render();
-  // }
+  for (Mob mob : mobs) {
+    if (mob.draw) mob.render();
+  }
 
   for (int i = 0 ; i < boxes.arm ; i ++) {
     Mob mob = (Mob) boxes.ar.get(i);
@@ -117,12 +116,17 @@ void update() {
 void updateEvents() {
   for (int i = 0 ; i < events.size() ; i ++) {
     Event event = events.get(i);
-    if (currBeat >= event.time && currBeat < event.timeEnd) {
-      if (!event.spawned) {
-        event.spawned = true;
-        event.spawn();
-      }
-      event.update();
+    if (!event.finished) {
+        if (currBeat >= event.time && currBeat < event.timeEnd) {
+          if (!event.spawned) {
+            event.spawned = true;
+            event.spawn();
+          }
+          event.update();
+        } else if (currBeat >= event.timeEnd) {
+            event.finished = true;
+            event.end();
+        }
     }
   }
 }
