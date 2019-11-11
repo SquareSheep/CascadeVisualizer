@@ -24,7 +24,7 @@ class IColor extends AColor {
   }
 
   IColor() {
-    this(125,125,125,125, 125,125,125,125, -1);
+    this(125,125,125,125, 0,0,0,0, -1);
   }
 
   void update() {

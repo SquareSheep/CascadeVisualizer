@@ -44,7 +44,7 @@ void setup() {
   back = new PVector(de*2,-de*2,-aw);
 
   cam = new Camera(de/2, de/2, -de*1.2);
-  cam.ang.P.set(0,0,0);
+  cam.ang.P.set(-PI/2+0.8,0,0);
 
   textSize(de/10);
 
@@ -82,13 +82,13 @@ void draw() {
   background(0);
 
   fill(255);
-  drawBorders();
-  drawWidthBox(de);
-  drawPitches();
-  push();
-  translate(0,de*0.5,0);
-  text(currBeat,0,0);
-  pop();
+  // drawBorders();
+  // drawWidthBox(de);
+  // drawPitches();
+  // push();
+  // translate(0,de*0.5,0);
+  // text(currBeat,0,0);
+  // pop();
 
   for (Mob mob : mobs) {
     if (mob.draw) mob.render();

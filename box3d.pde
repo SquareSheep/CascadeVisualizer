@@ -1,4 +1,4 @@
-class BoxPool<T extends Mob> extends ObjectPool {
+class BoxPool<T> extends ObjectPool {
 	void add(float px, float py, float pz, float wx, float wy, float wz, float angx, float angy, float angz, int lifeSpan) {
 		if (arm == ar.size()) {
 			ar.add(0,new Box3d(px,py,pz,wx,wy,wz,angx,angy,angz,lifeSpan));
@@ -21,7 +21,7 @@ void setBox3d(Box3d box, float x, float y, float z, float w, float h, float d, f
 	box.p.p.set(x,y,z);
 	box.p.P.set(x,y,z);
 	box.p.v.set(0,0,0);
-	box.w.p.set(w,h,d);
+	box.w.p.set(0,0,0);
 	box.w.P.set(w,h,d);
 	box.w.v.set(0,0,0);
 	box.ang.p.set(ax,ay,az);
