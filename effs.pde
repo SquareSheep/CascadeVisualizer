@@ -1,3 +1,9 @@
+/*
+Get rid of effs completely. Use Objectpools only for Mob extended objects
+Make events that do Cascaders' jobs, the way CascadeDiamond does
+- Instead of spawning Cascaders from Event.spawn(), use Event.update() to create the boxes
+*/
+
 class EffPool<T> extends ObjectPool {
 	void add(float x, float y, float z, float w, float h, float d, float ax, float ay, float az, float dx, float dy, float dz, int CD, int maxSteps, int lifeSpan) {
 		if (arm == ar.size()) {

@@ -21,11 +21,26 @@ abstract class ObjectPool<T> {
 	T getLast() {
 		return ar.get(0);
 	}
+
+	void render() {
+		for (int i = 0 ; i < arm ; i ++) {
+			((Mob)ar.get(i)).render();
+		}
+	}
+
+	void update() {
+		for (int i = 0 ; i < arm ; i ++) {
+			((Mob)ar.get(i)).update();
+		}
+		for (int i = 0 ; i < arm ; i ++) {
+			if (((Mob)ar.get(i)).finished) remove(i);
+		}
+	}
 }
 
 abstract class MobF extends Mob {
-	IColor fillStyle = new IColor();
-	IColor strokeStyle = new IColor();
+	IColor fillStyle = new IColor(125,125,125,125, 0,0,0,0, -1);
+	IColor strokeStyle = new IColor(255,255,255,0,0,0,0,0,-1);
 
 	void updatePoints() {
 		p.update();

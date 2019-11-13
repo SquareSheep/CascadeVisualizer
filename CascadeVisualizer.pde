@@ -14,8 +14,8 @@ float max;
 float avg;
 
 ArrayList<Event> events = new ArrayList<Event>();
-ArrayList<Mob> mobs = new ArrayList<Mob>();
 BoxPool<Box3d> boxes = new BoxPool<Box3d>();
+BoxPool<Box3d> stars = new BoxPool<Box3d>();
 EffPool<Eff> effs = new EffPool<Eff>();
 Camera cam;
 
@@ -64,40 +64,24 @@ void setup() {
 }
 
 void draw() {
-  // if (frameCount % 10 == 0) {
-  //   float w = de*0.15;
-  //   effs.add(-de,(int)random(-de/w,de/w)*w,0, w,w,0, 0,0,0, w,0,0, 10,(int)(de*2/w),60);
-  //   for (int i = 0 ; i < boxes.arm ; i ++) {
-  //     int t = (int)((float)i/boxes.arm*binCount);
-  //     Box3d box = ((Box3d)boxes.get(i));
-  //     box.fillStyle.set(25 + t * 2,t,125,125, 1,3,5,5, t);
-  //     box.w.pm.set(0.1,0.1,3);
-  //     box.w.index = t;
-  //   }
-  // }
-
   update();
   cam.render();
 
   background(0);
 
   fill(255);
-  // drawBorders();
-  // drawWidthBox(de);
-  // drawPitches();
-  // push();
-  // translate(0,de*0.5,0);
-  // text(currBeat,0,0);
-  // pop();
+  drawBorders();
+  drawWidthBox(de);
+  drawPitches();
+  push();
+  translate(0,de*0.5,0);
+  text(currBeat,0,0);
+  text((int)frameRate,0,de*0.1);
+  text(boxes.arm + " " + boxes.ar.size(),0,de*0.3);
+  pop();
 
-  for (Mob mob : mobs) {
-    if (mob.draw) mob.render();
-  }
-
-  for (int i = 0 ; i < boxes.arm ; i ++) {
-    Mob mob = (Mob) boxes.ar.get(i);
-    if (mob.draw) mob.render();
-  }
+  boxes.render();
+  stars.render();
 }
 
 void update() {
@@ -110,7 +94,14 @@ void update() {
   timer.update();
 
   updateEvents();
-  updateMobs();
+  boxes.update();
+  for (int i = 0 ; i < effs.arm ; i ++) {
+		((Eff)effs.ar.get(i)).update();
+	}
+	for (int i = 0 ; i < effs.arm ; i ++) {
+		if (((Eff)effs.ar.get(i)).finished) effs.remove(i);
+	}
+  //stars.update();
 }
 
 void updateEvents() {
@@ -128,33 +119,5 @@ void updateEvents() {
             event.end();
         }
     }
-  }
-}
-
-void updateMobs() {
-  // for (Mob mob : mobs) {
-  //   mob.update();
-  // }
-
-  // for (int i = 0 ; i < mobs.size() ; i ++) {
-  //   if (mobs.get(i).finished) mobs.remove(i);
-  // }
-
-  for (int i = 0 ; i < boxes.arm ; i ++) {
-    Mob mob = (Mob) boxes.ar.get(i);
-    mob.update();
-  }
-
-  for (int i = 0 ; i < boxes.arm ; i ++) {
-    Mob mob = (Mob) boxes.ar.get(i);
-    if (mob.finished) boxes.remove(i);
-  }
-
-  for (int i = 0 ; i < effs.arm ; i ++) {
-    ((Eff)effs.ar.get(i)).update();
-  }
-
-  for (int i = 0 ; i < effs.arm ; i ++) {
-    if (((Eff)effs.ar.get(i)).finished) effs.remove(i);
   }
 }

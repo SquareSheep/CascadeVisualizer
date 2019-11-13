@@ -16,7 +16,7 @@ class AnimateBoxes1 extends Event {
 		if (frameCount % 15 == 0) {
 			for (int i = 0 ; i < boxes.arm ; i ++) {
 				Box3d box = (Box3d)boxes.ar.get(i);
-				box.fillStyle.setM(sin(frameCount/24)*7 + 15,cos(frameCount/16)*7 + 15,sin(frameCount/35)*7 + 15, 0);
+				box.fillStyle.setM(sin(frameCount/24)*5 + 5,cos(frameCount/16)*5 + 5,sin(frameCount/35)*5 + 5, 15);
 				box.fillStyle.index = i%binCount;
 				box.w.index = i%binCount;
 				box.w.pm.y = de*0.005;
@@ -25,17 +25,87 @@ class AnimateBoxes1 extends Event {
 	}
 }
 
-class CascadeRow extends Event {
+class CascadeDiamond extends Event {
 	PVector p;
+	float w;
+	int CD;
+	int currCD = 0;
+	int steps = 0;
+	int maxSteps;
+	int lifeSpan;
+
+	CascadeDiamond(int time, int timeEnd, PVector p, float w, int CD, int lifeSpan) {
+		super(time, timeEnd);
+		this.p = p;
+		this.w = w;
+		this.CD = CD;
+		this.maxSteps = maxSteps;
+		this.lifeSpan = lifeSpan;
+	}
+
+	void spawn() {
+		currCD = 0; steps = 0;
+	}
+
+	void update() {
+		currCD ++;
+		if (currCD == CD) {
+			println("spawn: " + steps);
+			currCD = 0;
+			steps ++;
+			for (int i = 0 ; i < steps ; i ++) {
+				boxes.add(p.x - w*(steps-1) + i*w, p.y - i*w, p.z, w,w,w, 0,0,0, lifeSpan);
+			}
+			for (int i = 0 ; i < steps ; i ++) {
+				boxes.add(p.x - w*(steps-1) + i*w, p.y + i*w, p.z, w,w,w, 0,0,0, lifeSpan);
+			}
+			for (int i = 0 ; i < steps ; i ++) {
+				boxes.add(p.x + w*(steps-1) - i*w, p.y - i*w, p.z, w,w,w, 0,0,0, lifeSpan);
+			}
+			for (int i = 0 ; i < steps ; i ++) {
+				boxes.add(p.x + w*(steps-1) - i*w, p.y + i*w, p.z, w,w,w, 0,0,0, lifeSpan);
+			}
+		}
+	}
+}
+
+class CascadeRowZ extends CascadeRowX {
+	CascadeRowZ(int time, PVector p, PVector d, float w, int row, int CD, int maxSteps, int lifeSpan) {
+		super(time, p, d, w, row, CD, maxSteps, lifeSpan);
+	}
+
+	void spawn() {
+		for (float i = 0 ; i < row ; i ++) {
+			effs.add(p.x,p.y,p.z - w*row/2 + i*w, 	w,w,w,	0,0,0,	d.x,d.y,d.z, CD, maxSteps, lifeSpan);
+		}
+	}
+}
+
+class CascadeRowY extends CascadeRowX {
+	CascadeRowY(int time, PVector p, PVector d, float w, int row, int CD, int maxSteps, int lifeSpan) {
+		super(time, p, d, w, row, CD, maxSteps, lifeSpan);
+	}
+
+	void spawn() {
+		for (float i = 0 ; i < row ; i ++) {
+			effs.add(p.x,p.y - w*row/2 + i*w,p.z, 	w,w,w,	0,0,0,	d.x,d.y,d.z, CD, maxSteps, lifeSpan);
+		}
+	}
+}
+
+class CascadeRowX extends Event {
+	PVector p;
+	PVector d;
 	int row;
 	float w;
 	int CD;
 	int maxSteps;
 	int lifeSpan;
 
-	CascadeRow(int time, PVector p, float w, int row, int CD, int maxSteps, int lifeSpan) {
+	CascadeRowX(int time, PVector p, PVector d, float w, int row, int CD, int maxSteps, int lifeSpan) {
 		super(time, time+1);
 		this.p = p;
+		this.d = d.mult(w);
 		this.row = row;
 		this.w = w;
 		this.CD = CD;
@@ -45,8 +115,7 @@ class CascadeRow extends Event {
 
 	void spawn() {
 		for (float i = 0 ; i < row ; i ++) {
-			effs.add(p.x - w*row/2 + i*w,p.y,p.z, 	w,w,w,	0,0,0,	0,0,w, CD, maxSteps, lifeSpan);
-			println(effs.getLast());
+			effs.add(p.x - w*row/2 + i*w,p.y,p.z, 	w,w,w,	0,0,0,	d.x,d.y,d.z, CD, maxSteps, lifeSpan);
 		}
 	}
 }
@@ -102,15 +171,9 @@ class Event {
 		this.timeEnd = timeEnd;
 	}
 
-	void spawn() {
-
-	}
+	void spawn() {}
 	
-	void update() {
+	void update() {}
 
-	}
-
-	void end() {
-		
-	}
+	void end() {}
 }

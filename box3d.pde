@@ -29,7 +29,7 @@ void setBox3d(Box3d box, float x, float y, float z, float w, float h, float d, f
 	box.ang.v.set(0,0,0);
 	box.sca.x = 1; box.sca.X = 1; box.sca.v = 0;
 	box.lifeSpan = lifeSpan;
-	box.fadeSpan = lifeSpan / 5;
+	box.fadeSpan = lifeSpan / 5 + 10;
 	box.finished = false;
 	box.draw = true;
 }
