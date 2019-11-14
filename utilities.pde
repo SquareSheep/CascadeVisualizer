@@ -28,7 +28,7 @@ void calcFFT() {
 
 void mousePressed() {
   float temp = ((float)mouseX / width) * song.length();
-  int tempBeat = (int)(song.position()/60000.0*bpm);
+  int tempBeat = (int)(temp/60000.0*bpm);
   for (Event event : events) {
     if (tempBeat <= event.time) {
       event.spawned = false;

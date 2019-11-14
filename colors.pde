@@ -63,6 +63,11 @@ class IColor extends AColor {
   void set(float rc, float gc, float bc, float ac, float rm, float gm, float bm, float am) {
     set(rc,gc,bc,ac,rm,gm,bm,am,index);
   }
+
+  void reset(float rc, float gc, float bc, float ac, float rm, float gm, float bm, float am) {
+    set(rc,gc,bc,ac,rm,gm,bm,am,index);
+    r.x = rc; g.x = gc; b.x = bc; a.x = ac;
+  }
 }
 
 class AColor {

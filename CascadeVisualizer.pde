@@ -16,8 +16,8 @@ float avg;
 ArrayList<Event> events = new ArrayList<Event>();
 BoxPool<Box3d> boxes = new BoxPool<Box3d>();
 BoxPool<Box3d> stars = new BoxPool<Box3d>();
-EffPool<Eff> effs = new EffPool<Eff>();
 Camera cam;
+PGraphics pg;
 
 // GLOBAL ANIMATION VARIABLES -------------------
 
@@ -28,6 +28,7 @@ static PVector back;
 static float defaultMass = 10;
 static float defaultVMult = 0.5;
 
+Box3d sbox;
 
 BeatTimer timer;
 int currTime;
@@ -37,48 +38,48 @@ float currBeat;
 
 
 void setup() {
+  mim = new Minim(this);
+  song = mim.loadFile("enough.mp3", 1024);
+  fft = new FFT(song.bufferSize(), song.sampleRate());
+  timer = new BeatTimer(50,300,bpm);
+
   size(1000,1000,P3D);
+
   de = (int)(min(width,height)*1);
   aw = (int)(4*de);
   front = new PVector(-de*2,de*1.2,de*0.4);
   back = new PVector(de*2,-de*2,-aw);
 
   cam = new Camera(de/2, de/2, -de*1.2);
-  cam.ang.P.set(-PI/2+0.8,0,0);
-
-  textSize(de/10);
+  cam.ang.P.set(0,0,0);
 
   rectMode(CENTER);
-  textAlign(CENTER);
-
-  mim = new Minim(this);
-  song = mim.loadFile("enough.mp3", 1024);
-  fft = new FFT(song.bufferSize(), song.sampleRate());
-
-  timer = new BeatTimer(50,0,bpm);
   
   addEvents();
 
   song.loop();
   song.setGain(-25);
+
+  sbox = new Box3d();
+  sbox.fillStyle.set(125,125,255,125, 0,0,0,0, -1);
+  sbox.strokeStyle.set(255,255,255,255, 0,0,0,0, -1);
 }
 
 void draw() {
-  update();
   cam.render();
-
   background(0);
+  update();
 
-  fill(255);
-  drawBorders();
-  drawWidthBox(de);
-  drawPitches();
-  push();
-  translate(0,de*0.5,0);
-  text(currBeat,0,0);
-  text((int)frameRate,0,de*0.1);
-  text(boxes.arm + " " + boxes.ar.size(),0,de*0.3);
-  pop();
+  //fill(255);
+  //drawBorders();
+  //drawWidthBox(de);
+  //drawPitches();
+  // push();
+  // translate(0,de*0.5,0);
+  // text(currBeat,0,0);
+  // text((int)frameRate,0,de*0.1);
+  // //text(boxes.arm + " " + boxes.ar.size(),0,de*0.3);
+  // pop();
 
   boxes.render();
   stars.render();
@@ -95,13 +96,7 @@ void update() {
 
   updateEvents();
   boxes.update();
-  for (int i = 0 ; i < effs.arm ; i ++) {
-		((Eff)effs.ar.get(i)).update();
-	}
-	for (int i = 0 ; i < effs.arm ; i ++) {
-		if (((Eff)effs.ar.get(i)).finished) effs.remove(i);
-	}
-  //stars.update();
+  stars.update();
 }
 
 void updateEvents() {
