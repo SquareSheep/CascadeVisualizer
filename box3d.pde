@@ -20,10 +20,10 @@ class BoxPool<T> extends ObjectPool {
 void setBox3d(Box3d box, float x, float y, float z, float w, float h, float d, float ax, float ay, float az, int lifeSpan) {
 	box.p.p.set(x + sbox.p.p.x, y + sbox.p.p.y, z + sbox.p.p.z);
 	box.p.P.set(x,y,z);
-	box.p.v.set(sbox.p.v.x, sbox.p.v.y, sbox.p.v.z);//
-	box.w.p.set(sbox.w.p.x, sbox.w.p.y, sbox.w.p.z);//
-	box.w.P.set(w,h,d);//
-	box.w.v.set(sbox.w.v.x, sbox.w.v.y, sbox.w.v.z);//
+	box.p.v.set(sbox.p.v.x, sbox.p.v.y, sbox.p.v.z);
+	box.w.p.set(sbox.w.p.x, sbox.w.p.y, sbox.w.p.z);
+	box.w.P.set(w,h,d);
+	box.w.v.set(sbox.w.v.x, sbox.w.v.y, sbox.w.v.z);
 	box.ang.p.set(sbox.ang.p.x, sbox.ang.p.y, sbox.ang.p.z);
 	box.ang.P.set(ax + sbox.ang.P.x, ay + sbox.ang.P.y, az + sbox.ang.P.z);
 	box.ang.v.set(sbox.ang.v.x, sbox.ang.v.y, sbox.ang.v.z);

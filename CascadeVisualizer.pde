@@ -61,8 +61,6 @@ void setup() {
   song.setGain(-25);
 
   sbox = new Box3d();
-  sbox.fillStyle.set(125,125,255,125, 0,0,0,0, -1);
-  sbox.strokeStyle.set(255,255,255,255, 0,0,0,0, -1);
 }
 
 void draw() {
